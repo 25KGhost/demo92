@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROYAL RAGS | Exclusive Streetwear</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- DESIGN SYSTEM --- */
+        :root {
+            --bg-deep: #000000;
+            --bg-card: #0a0a0a;
+            --bg-glass: rgba(20, 20, 20, 0.6);
+            
+            --text-main: #FFFFFF;
+            --text-muted: #999999;
+            --accent-white: #ffffff;
+            
+            --font-main: 'Outfit', sans-serif;
+            
+            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+            --border-light: rgba(255,255,255,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { text-decoration: none; color: inherit; cursor: pointer; transition: 0.3s; }
+        ul { list-style: none; }
+        img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform 0.8s var(--ease); }
+        button { cursor: pointer; border: none; outline: none; background: none; font-family: inherit; }
+
+        /* --- UTILITIES --- */
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .uppercase { text-transform: uppercase; letter-spacing: 1px; }
+        .flex-center { display: flex; align-items: center; justify-content: center; }
+        .hidden { display: none !important; }
+        
+        /* Glassmorphism Classes */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .fade-in { animation: fadeIn 1s var(--ease) forwards; opacity: 0; transform: translateY(30px); }
+
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- NAVIGATION --- */
+        /* Initially invisible, transparent */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 2rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: transparent; 
+            transition: all 0.5s var(--ease);
+            border-bottom: 1px solid transparent;
+        }
+
+        /* The 'Scrolled' state: Frosty White, Slimmer */
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            padding: 1rem 3rem; /* Slimmer */
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        nav.scrolled .logo, nav.scrolled .nav-links a {
+            color: #000000; /* Invert text to black */
+        }
+        
+        nav.scrolled .cart-count {
+            background: #000;
+            color: #fff;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: white;
+            transition: color 0.5s var(--ease);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: white;
+            transition: color 0.5s var(--ease);
+        }
+
+        .nav-links a:hover { opacity: 0.6; }
+        
+        .cart-icon { position: relative; }
+        .cart-count { 
+            position: absolute; top: -8px; right: -12px; 
+            background: white; color: black; 
+            font-size: 0.7rem; font-weight: 800;
+            padding: 2px 6px; border-radius: 4px;
+            transition: all 0.5s var(--ease);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            /* Darker overlay for better text contrast */
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,1)), url('./assets/hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 0.9;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            color: white;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            letter-spacing: 4px;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        .btn-primary {
+            padding: 1.2rem 3.5rem;
+            background: white;
+            color: black;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            transition: all 0.4s var(--ease);
+            clip-path: polygon(0 0, 100% 0, 95% 100%, 5% 100%); /* Slight geometric shape */
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            background: #e0e0e0;
+        }
+
+        /* --- BENTO GRID CATEGORIES --- */
+        .shop-section { padding: 4rem 0 8rem 0; }
+        
+        .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            letter-spacing: -1px;
+            text-align: left;
+        }
+
+        /* Grid for Categories */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 350px);
+            gap: 1rem;
+            margin-bottom: 6rem;
+        }
+
+        .cat-item {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .cat-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s var(--ease);
+        }
+
+        .cat-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.4s;
+        }
+
+        .cat-title {
+            font-size: 2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s var(--ease);
+        }
+
+        .cat-item:hover img { transform: scale(1.1); }
+        .cat-item:hover .cat-overlay { background: rgba(0,0,0,0.6); }
+        .cat-item:hover .cat-title { opacity: 1; transform: translateY(0); }
+
+        /* Bento Spans */
+        .span-2-row { grid-row: span 2; grid-column: span 2; }
+        .span-2-col { grid-column: span 2; }
+
+        /* --- PRODUCT GRID --- */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); /* Wider cards */
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: transparent;
+            transition: transform 0.6s var(--ease);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .card-image {
+            height: 450px;
+            overflow: hidden;
+            position: relative;
+            border-radius: 4px;
+        }
+
+        .card-image img {
+            height: 100%;
+            filter: grayscale(20%); /* Slight desaturation for mood */
+        }
+
+        .product-card:hover .card-image img { 
+            transform: scale(1.05); 
+            filter: grayscale(0%);
+        }
+
+        .card-details {
+            padding: 1.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .card-price {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .view-btn {
+            background: white;
+            color: black;
+            padding: 0.5rem 1rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s var(--ease);
+        }
+
+        .product-card:hover .view-btn { opacity: 1; transform: translateY(0); }
+
+        /* --- BRAND STATEMENT --- */
+        .brand-statement {
+            padding: 8rem 0;
+            text-align: center;
+            background: #050505;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Subtle glow in background */
+        .brand-statement::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 70%);
+            z-index: 0;
+        }
+
+        .brand-statement h2 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #333;
+            line-height: 1.1;
+            text-transform: uppercase;
+            position: relative; z-index: 1;
+        }
+
+        .brand-statement span { color: white; }
+
+        /* --- PRODUCT PAGE VIEW --- */
+        .product-view {
+            padding-top: 100px;
+            min-height: 100vh;
+        }
+
+        .p-layout {
+            display: grid;
+            grid-template-columns: 55% 45%;
+            gap: 0; /* Split screen feel */
+        }
+
+        .p-gallery { 
+            height: calc(100vh - 100px); 
+            position: sticky; 
+            top: 100px;
+        }
+        
+        .p-info {
+            padding: 2rem 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .p-info h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .p-price {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            display: block;
+            font-weight: 300;
+        }
+
+        .p-desc {
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 3rem;
+            font-size: 0.95rem;
+            max-width: 500px;
+        }
+
+        /* Algerian Form Styles */
+        .dz-form {
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+
+        .dz-form-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+            border-bottom: 1px solid #222;
+            padding-bottom: 0.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 0.3rem;
+            text-transform: uppercase;
+        }
+
+        .dz-input, .dz-select {
+            width: 100%;
+            background: #111;
+            border: 1px solid #333;
+            color: white;
+            padding: 0.8rem;
+            font-family: inherit;
+            outline: none;
+            font-size: 0.9rem;
+        }
+        
+        .dz-input:focus, .dz-select:focus { border-color: white; }
+
+        .radio-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border: 1px solid #333;
+            flex: 1;
+        }
+        
+        .radio-option.selected { background: white; color: black; border-color: white; }
+
+        .add-cart-btn {
+            width: 100%;
+            background: white;
+            color: black;
+            padding: 1.2rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            margin-top: 1rem;
+        }
+        .add-cart-btn:hover { background: #ccc; }
+
+        /* --- FOOTER --- */
+        footer {
+            border-top: 1px solid var(--border-light);
+            padding: 4rem 2rem;
+            text-align: center;
+            background: #050505;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .motto {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 3rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .copyright {
+            font-size: 0.7rem;
+            color: #444;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media(max-width: 1024px) {
+            .hero h1 { font-size: 3.5rem; }
+            .category-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+            .span-2-row { grid-column: span 2; grid-row: span 1; height: 300px; }
+            .cat-item { height: 250px; }
+            .p-layout { grid-template-columns: 1fr; }
+            .p-gallery { height: 50vh; position: relative; top: 0; }
+            .p-info { padding: 2rem; }
+        }
+
+        @media(max-width: 768px) {
+            nav { padding: 1.5rem; }
+            nav.scrolled { padding: 1rem 1.5rem; }
+            .nav-links { display: none; } /* Simplified for mobile */
+            .hero h1 { font-size: 2.8rem; }
+            .category-grid { display: flex; flex-direction: column; }
+            .cat-item, .span-2-row { height: 200px; width: 100%; }
+            .product-grid { grid-template-columns: 1fr; }
+            .section-title { font-size: 2rem; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar">
+        <div class="logo">ROYAL RAGS</div>
+        <ul class="nav-links">
+            <li><a onclick="router('home')">Shop</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a onclick="router('admin')">Admin</a></li> 
+        </ul>
+        <a class="cart-icon" style="cursor: pointer;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+            <span class="cart-count">0</span>
+        </a>
+    </nav>
+
+    <div id="app">
+        </div>
+
+    <footer>
+        <div class="footer-logo">ROYAL RAGS</div>
+        <div class="motto">"Not everyone gets to wear the crown."</div>
+        
+        <div class="footer-links">
+            <a href="#">Instagram</a>
+            <a href="#">Terms</a>
+            <a href="#">Shipping</a>
+            <a href="#">Contact</a>
+        </div>
+
+        <div class="copyright">
+            &copy; 2026 ROYAL RAGS. Powered by OUSSAMA BARKAT.
+        </div>
+    </footer>
+
+    <script>
+        // --- DATA MOCK ---
+        // Enhanced mock data to support categories
+        const products = [
+            {
+                id: 1,
+                name: "Obsidian Bomber",
+                price: 45000,
+                category: "Jackets",
+                image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1000&auto=format&fit=crop",
+                desc: "Japanese nylon blend. Oversized fit. Matte black hardware. A silhouette for those who move in silence."
+            },
+            {
+                id: 2,
+                name: "Crown Hoodie | Bone",
+                price: 18500,
+                category: "Tops",
+                image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=1000&auto=format&fit=crop",
+                desc: "Heavyweight french terry. Dropped shoulders. Embroidered tonal crest. Simplicity executed perfectly."
+            },
+            {
+                id: 3,
+                name: "Stealth Cargo V2",
+                price: 22000,
+                category: "Pants",
+                image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=1000&auto=format&fit=crop",
+                desc: "Technical fabric with slight stretch. 6 pockets. Tapered ankle. Utility meets luxury."
+            },
+             {
+                id: 4,
+                name: "Velvet Sovereign",
+                price: 52000,
+                category: "Jackets",
+                image: "https://images.unsplash.com/photo-1559551409-dadc959f76b8?q=80&w=1000&auto=format&fit=crop",
+                desc: "Crushed velvet structure. Silk lining. A statement piece for evening wear."
+            },
+            {
+                id: 5,
+                name: "Ghost Runners",
+                price: 32000,
+                category: "Sneakers",
+                image: "https://images.unsplash.com/photo-1600269452121-4f2416e55c28?q=80&w=1000&auto=format&fit=crop",
+                desc: "Italian leather construction. Chunky sole. Minimal branding."
+            }
+        ];
+
+        const orders = [
+            { id: "#RR-9021", customer: "Amine K.", total: "53,000 DZD", status: "Pending", date: "Jan 12" },
+            { id: "#RR-9020", customer: "Sarah B.", total: "12,000 DZD", status: "Delivered", date: "Jan 10" },
+            { id: "#RR-9019", customer: "Karim W.", total: "35,000 DZD", status: "Delivered", date: "Jan 09" },
+        ];
+
+        // --- COMPONENTS ---
+
+        const HomePage = () => `
+            <section class="hero fade-in">
+                <h1>Not Everyone Gets<br>To Wear The Crown.</h1>
+                <p class="uppercase">Exclusive Streetwear / Algiers Based</p>
+                <button class="btn-primary" onclick="scrollToShop()">Enter Collection</button>
+            </section>
+
+            <section class="container shop-section" id="collection">
+                
+                <h2 class="section-title">The Collection</h2>
+                
+                <div class="category-grid">
+                    <div class="cat-item span-2-row">
+                        <img src="./assets/pic2.jpg" alt="Jackets">
+                        <div class="cat-overlay">
+                            <span class="cat-title">Outerwear</span>
+                        </div>
+                    </div>
+                    <div class="cat-item">
+                        <img src="https://images.unsplash.com/photo-1560769629-975ec94e6a86?q=80&w=1000&auto=format&fit=crop" alt="Sneakers">
+                        <div class="cat-overlay">
+                            <span class="cat-title">Kicks</span>
+                        </div>
+                    </div>
+                    <div class="cat-item">
+                        <img src="https://images.unsplash.com/photo-1516762689617-e1cffcef479d?q=80&w=1000&auto=format&fit=crop" alt="Tops">
+                        <div class="cat-overlay">
+                            <span class="cat-title">Essentials</span>
+                        </div>
+                    </div>
+                    <div class="cat-item span-2-col">
+                        <img src="./assets/pic1.jpg" alt="Accessories">
+                         <div class="cat-overlay">
+                            <span class="cat-title">Accessories</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-header" style="margin-bottom:2rem; border-bottom:1px solid #222; padding-bottom:1rem; display:flex; justify-content:space-between;">
+                    <span class="uppercase" style="color:#666">Latest Drop</span>
+                    <span class="uppercase" style="color:#fff">Vol. 4 - "Silence"</span>
+                </div>
+
+                <div class="product-grid">
+                    ${products.map(p => `
+                        <article class="product-card fade-in" onclick="router('product', ${p.id})">
+                            <div class="card-image">
+                                <img src="${p.image}" alt="${p.name}">
+                            </div>
+                            <div class="card-details">
+                                <div>
+                                    <span class="card-title">${p.name}</span>
+                                    <span class="card-price" style="font-family:'Outfit'; font-weight:300;">${p.price.toLocaleString()} DZD</span>
+                                </div>
+                                <button class="view-btn">View Item</button>
+                            </div>
+                        </article>
+                    `).join('')}
+                </div>
+            </section>
+
+            <section class="brand-statement">
+                <div class="container">
+                    <h2>Royal Rags isn't fast fashion.<br>
+                    <span>It's presence.</span><br>
+                    Built for those who don't ask.</h2>
+                </div>
+            </section>
+        `;
+
+        const ProductPage = (id) => {
+            const p = products.find(x => x.id === id);
+            return `
+            <div class="product-view fade-in">
+                <div class="p-layout">
+                    <div class="p-gallery">
+                        <img src="${p.image}" alt="${p.name}">
+                    </div>
+                    <div class="p-info">
+                        <button onclick="router('home')" style="color:var(--text-muted); margin-bottom:2rem; font-size:0.8rem; text-align:left;">← BACK TO COLLECTION</button>
+                        
+                        <div style="margin-bottom:2rem;">
+                            <span style="color:var(--text-muted); text-transform:uppercase; font-size:0.8rem; letter-spacing:1px;">${p.category}</span>
+                            <h1>${p.name}</h1>
+                            <span class="p-price">${p.price.toLocaleString()} DZD</span>
+                        </div>
+
+                        <div class="p-desc">${p.desc}</div>
+                        
+                        <div class="dz-form">
+                            <div class="dz-form-title">Quick Order / Information</div>
+                            
+                            <div class="form-row">
+                                <div class="input-group">
+                                    <label>Full Name</label>
+                                    <input type="text" class="dz-input" placeholder="e.g. Karim Bens">
+                                </div>
+                                <div class="input-group">
+                                    <label>Phone (05/06/07)</label>
+                                    <input type="tel" class="dz-input" placeholder="05 XX XX XX XX">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="input-group">
+                                    <label>Wilaya</label>
+                                    <select class="dz-select">
+                                        <option>16 - Algiers</option>
+                                        <option>31 - Oran</option>
+                                        <option>25 - Constantine</option>
+                                        <option>19 - Setif</option>
+                                        <option>06 - Bejaia</option>
+                                        <option>Other (All 58 Wilayas)</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label>Commune</label>
+                                    <input type="text" class="dz-input" placeholder="Municipality">
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <label>Delivery Method</label>
+                                <div class="radio-group">
+                                    <div class="radio-option selected" onclick="selectRadio(this)">
+                                        <span>🏠</span> Home Delivery
+                                    </div>
+                                    <div class="radio-option" onclick="selectRadio(this)">
+                                        <span>📦</span> Stop Desk (Yalidine)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="size-selector">
+                            <label style="display:block; margin-bottom:0.5rem; font-size:0.8rem; color:var(--text-muted)">SELECT SIZE</label>
+                            <div style="display:flex; gap:0.5rem;">
+                                <button style="border:1px solid #333; color:white; width:40px; height:40px;">S</button>
+                                <button style="border:1px solid white; color:black; background:white; width:40px; height:40px;">M</button>
+                                <button style="border:1px solid #333; color:white; width:40px; height:40px;">L</button>
+                                <button style="border:1px solid #333; color:white; width:40px; height:40px;">XL</button>
+                            </div>
+                        </div>
+
+                        <button class="add-cart-btn" onclick="addToCart()">Order Now - Cash on Delivery</button>
+                    </div>
+                </div>
+            </div>
+            `;
+        };
+
+        const AdminPage = () => `
+            <div class="container fade-in" style="padding-top:150px; min-height:100vh;">
+                <h2 class="section-title">Admin Panel</h2>
+                
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-bottom:2rem;">
+                    <div class="glass-panel" style="padding:2rem;">
+                        <div style="font-size:2rem; font-weight:800;">324,000 DZD</div>
+                        <div style="color:var(--text-muted); text-transform:uppercase; font-size:0.8rem;">Revenue</div>
+                    </div>
+                    <div class="glass-panel" style="padding:2rem;">
+                        <div style="font-size:2rem; font-weight:800;">12</div>
+                        <div style="color:var(--text-muted); text-transform:uppercase; font-size:0.8rem;">Pending Orders</div>
+                    </div>
+                </div>
+
+                <div class="glass-panel" style="padding:2rem; overflow-x:auto;">
+                    <table style="width:100%; text-align:left; border-collapse:collapse;">
+                        <thead>
+                            <tr style="border-bottom:1px solid #333;">
+                                <th style="padding:1rem;">ID</th>
+                                <th style="padding:1rem;">Customer</th>
+                                <th style="padding:1rem;">Total</th>
+                                <th style="padding:1rem;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                             ${orders.map(o => `
+                                <tr style="border-bottom:1px solid #222; color:#ccc;">
+                                    <td style="padding:1rem;">${o.id}</td>
+                                    <td style="padding:1rem;">${o.customer}</td>
+                                    <td style="padding:1rem;">${o.total}</td>
+                                    <td style="padding:1rem; color:${o.status === 'Delivered' ? '#4ade80' : '#fbbf24'}">${o.status}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `;
+
+        // --- ROUTER LOGIC ---
+        const app = document.getElementById('app');
+
+        function router(route, param = null) {
+            window.scrollTo(0,0);
+            if (route === 'home') {
+                app.innerHTML = HomePage();
+            } else if (route === 'product') {
+                app.innerHTML = ProductPage(param);
+            } else if (route === 'admin') {
+                app.innerHTML = AdminPage();
+            }
+        }
+
+        // --- SCROLL EFFECT FOR NAVBAR ---
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // --- INTERACTION LOGIC ---
+        function scrollToShop() {
+            document.getElementById('collection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        let cart = 0;
+        function addToCart() {
+            const btn = document.querySelector('.add-cart-btn');
+            const originalText = btn.innerText;
+            
+            btn.innerText = "ORDER SUBMITTED";
+            btn.style.background = "#4ade80"; // Green for success
+            
+            cart++;
+            document.querySelector('.cart-count').innerText = cart;
+
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.style.background = "white";
+            }, 2000);
+        }
+
+        function selectRadio(el) {
+            document.querySelectorAll('.radio-option').forEach(r => r.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        // --- INIT ---
+        router('home');
+
+    </script>
+</body>
+</html>
